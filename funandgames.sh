@@ -22,7 +22,7 @@ IsPassword=${IsPassword}
 for j in $(cat /usr/share/dict/american-english-small)
 do
 	IsPassword=$j
-	IsPassword=$( python3 fun.py $j $SaltTemp)
+	IsPassword=$(python3 fun.py $j $SaltTemp)
 	if [ $IsPassword == $YourBoss ]; then
 		echo $j
 		break
