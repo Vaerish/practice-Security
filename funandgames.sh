@@ -9,7 +9,7 @@ TempWorkerHashed=${TempWorkerHashed:0}
 TempWorkerHashed=${TempWorkerHashed:0:-19}
 YourBoss=${YourBoss:9:-19}
 DecryptedSys=$( hashcat --force -m 1800 SysPassword.txt Decoded.txt /usr/share/dict/american-english-small > Decoded.txt)
-DecryptedPassSys=$( python3 decodeSys.py)
+DecryptedPassSys=$(python3 decodeSys.py)
 #Finished up making it just the password section now we just need to figure out salt
 SaltTemp=$YourBoss
 #Then encode every word in dictionary with salt to find word
@@ -30,7 +30,6 @@ do
 done
 
 #now I need to use john to break the sysadmins password
-python3
 echo $TempWorker
 echo $DecryptedPassSys
 	
