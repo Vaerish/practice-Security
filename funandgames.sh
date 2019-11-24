@@ -3,7 +3,6 @@ TempWorker=correctbatteryhorsestaple99
 TempWorkerHashed=$(grep "tempworker.*\n" /etc/shadow)
 YourBoss=$(grep "yourboss.*\n" /etc/shadow)
 SysAdmin=$(grep "sysadmin.*\n" /etc/shadow)
-echo $SysAdmin
 echo $SysAdmin > SysPassword.txt
 touch Decoded.txt
 TempWorkerHashed=${TempWorkerHashed:0}
@@ -26,6 +25,7 @@ do
 	IsPassword=$( python3 fun.py $j $SaltTemp)
 	if [ $IsPassword == $YourBoss ]; then
 		echo $j
+		break
 	fi
 done
 
