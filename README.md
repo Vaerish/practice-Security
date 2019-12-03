@@ -1,5 +1,7 @@
 Note: viewing this document in the Gitlab interface is nice.
 
+![](https://regmedia.co.uk/2015/03/20/office_space.jpg)
+
 # Story
 You suspect your boss is embezzling money, and you would really like to obtain your boss's password to gather evidence.
 What you do with it is up to you...
@@ -12,10 +14,10 @@ You job is to write this script, which you can give to your "friend" the temp wo
 * processes the password files, 
 * cracks the password for the account "yourboss" and "sysadmin"
   outputs the passwords (and only the passwords) to the screen,
-* then fixes the permissions of the relevant password files to match the **Debian** defaults,
+* fixes the permissions of the relevant password files to match the **Debian** defaults,
 * clears the bash history,
 * deletes any log or "dot" / config files created in the process of cracking the password,
-* and finally, add the temp worker to the sudo'ers group (for future mischief).
+* adds the temp worker to the sudo'ers group (for future mischief or framing him).
 
 The user tempworker gave you his password so you can include it in the script: "correctbatteryhorsestaple99" (why he has a reasonably good password is a mystery to you...).
 You can't just use the password at any physical terminal though, since someone might notice you at the temp's computer, and you don't want evidence that you logged onto his account with your computer (that's just part of the story, not something you have to do...).
@@ -56,40 +58,21 @@ Wordlists already in Debian or Kali (for your dictionary inputs):
 0. Choose whether you want to write:
     * a bash script that occasionally calls a python script for the crypt lib operation (easier), or 
     * a python script that makes repeated bash commands, that may also need to call a bash script in a complicated way (a little harder).
-1. Get the password of yourboss using a from-scratch script and nothing other than basic crypto tools (NOT jonh, hashcat, etc.) (65 pts)
+1. Get the password of yourboss using a from-scratch script and nothing other than basic crypto tools (NOT jonh, hashcat, etc.) (60 pts)
 2. Get sysadmin's password by using John or Hashcat (NOT the from-scratch method).
-   Hint 1: these are in the repos, don't download them from some random website... (20 pts)
-   Hint 2: if you use hashcat, and your host is Windows, turn OFF video acceleration. If you attemp to grab our video cards for acceleration, it will break your code.
+   Hint 1: these are in the repos, so don't download them from some random website... (20 pts)
+   Hint 2: if you use hashcat, and your host is Windows, turn OFF video acceleration. If you attemp to grab our video cards for acceleration, it will break your code (and you will lose points).
+   Also, hashcat is much slower than john (on CPU anyway).
 4. Give tempworker sudo ability (5 pts) - this is potentially harder in python with nested bash. (maybe a little tricky; read the links)
-5. Then fix permissions on the shadow file (debian secure defaults) (5 pts)
+5. Fix permissions on the shadow file (debian secure defaults) (5 pts)
 6. Clear your tracks, if you left any, like logfiles, history, etc. (5 pts)
+7. Screenshot (details below) (5pts)
 
 # Setup
 In a fresh install of your Debian or Kali VM (updated to latest software via apt-get), 
 run this to setup the assignment:
 
-```bash
-#!/usr/bin/env bash
-
-# This should be executed as root or sudo on your Kali or Debian VM, when internet is available.
-
-# Installs the needed tools (will be available on the grader):
-sudo apt install john hashcat wamerican* expect
-
-# Creates sysadmin's account and password
-sudo useradd sysadmin -m -p '$6$g0oUQt7l$Su1Nzm5XgOSnZqvECAqOhnxdHrGiuhqTRRaTEdAOw2jIQzLMx32Tluv3d5lfG7O5UAPM79LKnm4voFa2GJ36O0'
-sudo usermod -a -G sudo sysadmin
-
-# Creates yourboss's account and password
-sudo useradd yourboss -m -p '$6$dbkKuKGS$XsniIqjOF39Kar2w3vZ8DuImkBihLJ0wR6skCAzwIFTDfbDdgQLYCyzRrcQeouT83didVrrOiXVYVARDpX88L/'
-sudo usermod -a -G sudo yourboss
-
-# Creates tempworker's account and password
-sudo useradd tempworker -m -p '$6$g1VamdqE$RiEKGpb7gemh1Zt2JyVPq4Gzp/a2wTE5CPxNu97YaFfjS4wqbL2Nj1ousP2NWrUtjoVWw2nm8KdIcHzgzkw7R.'
-
-# break permissions on shadow file
-sudo chmod a+rwx /etc/shadow
-```
+Check out the file: `setup.sh` in your repo.
 
 # Hints
 * Try all your commands at the regular bash command line first!
@@ -97,7 +80,7 @@ sudo chmod a+rwx /etc/shadow
   I suggest you thoroughly read and understand subprocess.run, rather than just copy-pasting internet code...
 * With bash as the main driver, occasionally calling python, it is easier (it's up to you).
 * You will want to take and refresh VM snaphshots for testing your code repeatedly (IMPORTANT; don't test on a non-freshly broken VM).
-* The sudo password for the tempworker must be typed automatically within your script;
+* Any passwords for your script must be typed automatically within your script;
   we will NOT provide any keyboard input during grading running (don't expect we will provide any).
 * Please don't spam us with tons of console output.
 * You do not have to delete your own script...
@@ -105,16 +88,19 @@ sudo chmod a+rwx /etc/shadow
 * Your script can call other scripts (even other bash or scripts in your repo perhaps).
 * Make sure to include all files you want included in the repo.
 * Do NOT just take the hashes from the script above and crack those; this will get you a 0. You need to pull them from the shadow file.
+* Do NOT assume that you will have anything other than base debian and the installed software listed above.
+* If you suspect your john or hashcat may time-out, time them out yourself, so the rest of your script can execute (examples below about timeout syntax), so that if during grading, your hashcat or john times out, you don't lose points for the following stuff. Note: with appropriate arguments, these should take less than 1 minute or so.
 
 # What to submit
 * `funandgames.py` OR `funandgames.sh` (but not both)
 * Screenshot of how you ran your script and the results produced by your script: 
 `It_ran_on_my_machine.png` with LOWERCASE png :)
+* Any other scripts you need.
 
 # Running
 We will run your script as follows (in the home directory of a random new tempworker we have created without sudo permissions):
 
-At the bash command line (not sh or zsh, just bash):
+At the bash command line (not sh, dash, zsh, but just bash):
 
 Run as unprivileged tempworker (important; actually test this way, NOT as root or sudo!)
 
@@ -126,22 +112,33 @@ Run as unprivileged tempworker (important; actually test this way, NOT as root o
 
 `tempworker`
 
-`$ python3 funandgames.py`
+`$ cd /home/tempworker/`
 
-`$ bash funandgames.sh`
+Copy your repo contents to `/home/tempworker/`
 
-Note: Putting a space before a command means it does not get entered into bash history, IF the environmental variable, $HISTCONTROL=ignoreboth, as it is in Debian.
+`$ pwd`
+
+`/home/tempworker`
+
+`$ timeout 300 python3 funandgames.py`
+
+OR
+
+`$ timeout 300 bash funandgames.sh`
+
+Note: Putting a space before a command means it does not get entered into bash history, IF the environmental variable, HISTCONTROL=ignoreboth, as it is in Debian.
 
 # Password output:
 * You can check your program output by doing this (which is how we will run it)
 
-    `$ python3 funandgames.py >myout.txt  # Put space before command`
+    `$ timeout 300 python3 funandgames.py >myout.txt  # Put space before command`
+    
+    OR
 
-    `$ bash funandgames.sh >myout.txt  # Put space before command`
+    `$ timeout 300 bash funandgames.sh >myout.txt  # Put space before command`
 
     `$ diff myout.txt example-output.txt`
 
-* Make sure you don't have newline differences with this file.
-* Make sure there are no differences (other than the passwords, which I can't give out).
+* Make sure you don't have differences with the diff above.
 * No output other than the system changes themselves should be produced for the other assignment components (like the permissions changes).
 

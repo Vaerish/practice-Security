@@ -1,0 +1,24 @@
+Test for boss:
+fail for 0 more points
+
+Test for sysadmin:
+pass for 20 points
+
+Test for .john or .hashcat:
+pass for 2 points
+
+Test for .bash_history:
+pass for 3 points
+
+Test for screenshot:
+pass for 5 points
+
+Test for permissions on /etc/shadow:
+fail for 0 more points
+
+Test for tempworker got sudo:
+fail for 0 more points
+
+Your grade total is:
+30
+

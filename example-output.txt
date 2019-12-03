@@ -1,3 +1,2 @@
-yourbossespassword
-yourbuddyspassword
-sysadminpassword
+money
+power
