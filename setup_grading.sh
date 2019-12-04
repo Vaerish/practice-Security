@@ -5,20 +5,20 @@
 # nor will any packages besides base debian and the following be installed:
 
 # Installs the needed tools (will be available on the grader)
-sudo apt install john hashcat wamerican* expect python3-pexpect libpam-cracklib
+sudo apt install -y john hashcat wamerican* expect python3-pexpect libpam-cracklib whois
 
 # Creates tempworker's account and password
 # correctbatteryhorsestaple99
 sudo useradd tempworker --create-home --password '$6$g1VamdqE$RiEKGpb7gemh1Zt2JyVPq4Gzp/a2wTE5CPxNu97YaFfjS4wqbL2Nj1ousP2NWrUtjoVWw2nm8KdIcHzgzkw7R.'
 
 # Creates yourboss's account and password
-# short
-sudo useradd yourboss --create-home --password '$6$lXb4rYiLvLe3miaV$2cQHcoD8HyGc7tKDrbyaJfMQiN548yy6OuCWyXP6PAiBJGq7EixN71mJzypzI2q0JzwkLrwGKghPWyaNjvovZ/'
+# bear
+sudo useradd yourboss --create-home --password '$6$f.lo6DhcRgGd9oxs$EvBzwuesXmGorax4qWwPOFWi9RhRwbd6SicbQTBo1thAm.vkz8ogEtuZlyuRLM7xcv6D8GYpKdlAUJ3AeZQz60'
 sudo usermod --append --groups sudo yourboss
 
 # Creates sysadmin's account and password
-# simple
-sudo useradd sysadmin --create-home --password '$6$zFTUNOKptiQz/Xv8$.KCQXCzoiIjAKX9Ayf3Ji8tx.ncBLhm.AfCvEKSBBfTL/3mt8vnY1Ako4ssMHoDl0C6VtnRpsMuxmodWp36sL1'
+# dragon
+sudo useradd sysadmin --create-home --password '$6$AhOS5aOcn6zAn99p$nO2z9CZ/C/cLIoXT9yU4A74wgPq11UKGme/dhnNPqCi67uPUH27gCiuf9nHVvvLImcZoXvsVw7W/RTHjgMe22.'
 sudo usermod --append --groups sudo sysadmin
 
 # break permissions on shadow file

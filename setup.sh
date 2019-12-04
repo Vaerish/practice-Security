@@ -5,7 +5,7 @@
 # nor will any packages besides base debian and the following be installed:
 
 # Installs the needed tools (will be available on the grader)
-sudo apt install john hashcat wamerican* expect python3-pexpect libpam-cracklib
+sudo apt install -y john hashcat wamerican* expect python3-pexpect libpam-cracklib whois
 
 # Creates tempworker's account and password
 # correctbatteryhorsestaple99

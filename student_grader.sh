@@ -36,26 +36,44 @@ su tempworker <<crack_stuff
 
     if [ -f "funandgames.sh" ]
     then
-        timeout 300 bash funandgames.sh >your_out.txt
+        timeout 600 bash funandgames.sh >your_out.txt
     elif [ -f "funandgames.py" ]
     then
-        timeout 300 python3 funandgames.py >your_out.txt
+        timeout 600 python3 funandgames.py >your_out.txt
     fi
 crack_stuff
 
 student_file=$1_result.txt
+
+# for re-running
+if [[ -f $student_file ]]
+then
+    rm $student_file
+fi
+
 grade=0
 
-sudo grep -Fxq short /home/tempworker/your_out.txt
+# TODO add back -x option next year (being nice/easier this year).
+#sudo grep -Fxq bear /home/tempworker/your_out.txt
+sudo grep -Fq bear /home/tempworker/your_out.txt
 grade_update boss 60
 
-sudo grep -Fxq simple /home/tempworker/your_out.txt
+#sudo grep -Fxq dragon /home/tempworker/your_out.txt
+sudo grep -Fq dragon /home/tempworker/your_out.txt
 grade_update sysadmin 20
 
 [[ ! -d '/home/tempworker/.john' && \
+   ! -d '/home/tempworker/john.log' && \
+   ! -d '/home/tempworker/john.pot' && \
    ! -d '/home/root/.john' && \
+   ! -d '/home/root/john.log' && \
+   ! -d '/home/root/john.pot' && \
    ! -d '/home/yourboss/.john' && \
+   ! -d '/home/yourboss/john.log' && \
+   ! -d '/home/yourboss/john.pot' && \
    ! -d '/home/sysadmin/.john' || \
+   ! -d '/home/sysadmin/john.pot' || \
+   ! -d '/home/sysadmin/john.log' || \
    ! -d '/home/tempworker/.hashcat' && \
    ! -d '/home/root/.hashcat' && \
    ! -d '/home/yourboss/.hashcat' && \
@@ -74,7 +92,8 @@ fi
 [[ -f '/home/tempworker/It_ran_on_my_machine.png' ]]
 grade_update screenshot 5
 
-stat /etc/shadow | grep -q 'Access: (0640/-rw-r-----)'
+# loosely tolerating 0600 and 0640 both (this could be more precise...)
+stat /etc/shadow | grep -q 'Access: (06.0/-rw-.-----)'
 grade_update 'permissions on /etc/shadow' 5
 
 groups tempworker | grep -Fxq 'tempworker : tempworker sudo'

@@ -36,7 +36,7 @@ Sudo and passwords
 Bash and sudo
 * https://stackoverflow.com/questions/11955298/use-sudo-with-password-as-parameter
 * https://superuser.com/questions/67765/sudo-with-password-in-one-command-line
-* https://www.slashroot.in/expect-command-tutorial-linux-example-usage (depending on distro, whether you can su from sub-shell)
+* https://www.slashroot.in/expect-command-tutorial-linux-example-usage (depending on distro, whether you can su from sub-shell; expect/pexpect should not be needed, unless you're on an old version of debian that restricts su/sudo to tty only. It's also a lot more complicated).
 
 Executing system bash commands in python (if you choose that route):
 * https://docs.python.org/3.5/library/subprocess.html#subprocess.run
