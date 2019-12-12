@@ -1,5 +1,5 @@
 Test for boss:
-fail for 0 more points
+pass for 60 points
 
 Test for sysadmin:
 pass for 20 points
@@ -20,5 +20,5 @@ Test for tempworker got sudo:
 fail for 0 more points
 
 Your grade total is:
-30
+90
 
